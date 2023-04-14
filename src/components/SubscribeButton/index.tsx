@@ -1,8 +1,10 @@
 import styles from './styles.module.scss';
 
-export function SubscribeButton() {
-    const isUserLoggedIn = false;
+interface SubscribeButtonProps {
+    priceId: string;
+}
 
+export function SubscribeButton({ priceId }: SubscribeButtonProps) {
     return (
         <button
             type='button'
