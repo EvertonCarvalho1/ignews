@@ -5,9 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "slicemachine": "start-slicemachine"
   },
   "dependencies": {
+    "@prismicio/client": "^4.0.0",
+    "@prismicio/helpers": "^2.3.9",
+    "@prismicio/next": "^1.0.3",
+    "@prismicio/react": "^2.5.2",
     "@stripe/stripe-js": "1.13.2",
     "axios": "^0.21.1",
     "faunadb": "^4.1.2",
@@ -20,9 +25,12 @@
     "stripe": "^8.139.0"
   },
   "devDependencies": {
+    "@prismicio/types": "^0.2.7",
+    "@slicemachine/adapter-next": "^0.1.0",
     "@types/next-auth": "3.7.1",
     "@types/node": "^14.14.35",
     "@types/react": "^17.0.3",
+    "slice-machine-ui": "^1.0.0",
     "typescript": "^4.2.3"
   }
 }
