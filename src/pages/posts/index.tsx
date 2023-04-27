@@ -2,9 +2,23 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Prismic from '@prismicio/client'
 import { getPrismicClient } from '../../services/prismic';
+import { RichText } from 'prismic-dom';
+
 import styles from './styles.module.scss';
 
-export default function Posts() {
+interface Post {
+    slug: string;
+    title: string;
+    except: string;
+    updatedAt: string;
+
+}
+
+interface PostsProps {
+    posts: Post[]
+}
+
+export default function Posts({ posts }: PostsProps) {
     return (
         <>
             <Head>
@@ -13,24 +27,16 @@ export default function Posts() {
 
             <main className={styles.container}>
                 <div className={styles.posts}>
-                    <a href="">
-                        <time>26 de Abr de 2022
-                        </time>
-                        <strong>Next Level Week: os caminhos que trilhamos até aqui</strong>
-                        <p>Uma semana inteira de conteúdos práticos voltados para programação. O objetivo é específico e direto: treinar e capacitar profissionais que procuram incluir em seus portfólios o que há de mais novo e tendência no mercado de TI no Brasil e no mundo.</p>
-                    </a>
-                    <a href="">
-                        <time>26 de Abr de 2022
-                        </time>
-                        <strong>Next Level Week: os caminhos que trilhamos até aqui</strong>
-                        <p>Uma semana inteira de conteúdos práticos voltados para programação. O objetivo é específico e direto: treinar e capacitar profissionais que procuram incluir em seus portfólios o que há de mais novo e tendência no mercado de TI no Brasil e no mundo.</p>
-                    </a>
-                    <a href="">
-                        <time>26 de Abr de 2022
-                        </time>
-                        <strong>Next Level Week: os caminhos que trilhamos até aqui</strong>
-                        <p>Uma semana inteira de conteúdos práticos voltados para programação. O objetivo é específico e direto: treinar e capacitar profissionais que procuram incluir em seus portfólios o que há de mais novo e tendência no mercado de TI no Brasil e no mundo.</p>
-                    </a>
+
+                    {posts.map(post => (
+
+                        <a key={post.slug} href="">
+                            <time>{post.updatedAt}</time>
+                            <strong>{post.title}</strong>
+                            <p>{post.except}</p>
+                        </a>
+
+                    ))}
                 </div>
             </main>
         </>
@@ -47,22 +53,22 @@ export const getStaticProps: GetStaticProps = async () => {
         pageSize: 100
     })
 
-    console.log('===========', JSON.stringify(response, null, 2));
-
-    // const posts = response.results.map(post => {
-    //     return {
-    //         slug: post.uid,
-    //         title: RichText.asText(post.data.title),
-    //         excerpt: post.data.content.find(content => content.type === 'paragraph')?.text ?? '',
-    //         updatedAt: new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
-    //             day: '2-digit',
-    //             month: 'long',
-    //             year: 'numeric'
-    //         })
-    //     }
-    // })
+    const posts = response.results.map(post => {
+        return {
+            slug: post.uid,
+            title: post.data.title,
+            except: post.data.content.find(content => content.type === 'paragraph')?.text ?? '',
+            updatedAt: new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            })
+        }
+    })
 
     return {
-        props: {}
+        props: {
+            posts
+        }
     }
 }
