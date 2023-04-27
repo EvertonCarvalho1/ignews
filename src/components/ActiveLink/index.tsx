@@ -13,7 +13,10 @@ export function ActiveLink({ children, activeClassName, ...rest }: ActiveLinkPro
     const className = asPath === rest.href ? activeClassName : ''
 
     return (
-        <Link legacyBehavior {...rest}>
+        <Link
+            legacyBehavior
+            {...rest}
+        >
             {cloneElement(children, {
                 className
             })}
